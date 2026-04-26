@@ -31,13 +31,14 @@ resource "aws_security_group" "this" {
 }
 
 resource "aws_instance" "this" {
-  ami                     = var.ami_id
-  instance_type           = var.instance_type
-  subnet_id               = var.subnet_id
-  vpc_security_group_ids  = [aws_security_group.this.id]
-  disable_api_termination = var.environment == "prod" ? true : false
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  subnet_id     = var.subnet_id
 
-  tags = merge(var.tags, {
-    Name = var.instance_name
-  })
+  tags = merge(
+    var.tags,
+    {
+      Name        = var.instance_name
+      Environment = var.environment
+    })
 }
